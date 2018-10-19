@@ -1,7 +1,3 @@
-
-
-import "unsafe"
-
 // Copyright 2009 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -13,9 +9,9 @@ import "unsafe"
 package runtime
 
 import (
-"runtime/internal/atomic"
-"runtime/internal/sys"
-"unsafe"
+	"runtime/internal/atomic"
+	"runtime/internal/sys"
+	"unsafe"
 )
 
 // minPhysPageSize is a lower-bound on the physical page size. The
@@ -224,13 +220,13 @@ type mSpanList struct {
 
 //go:notinheap
 type mspan struct {
-	next *mspan     // span list中的后一个span, 如果没有则为空。
-	prev *mspan     // span list中的前一个span, 如果没有则为空。
-	startAddr uintptr // address of first byte of span aka s.base()  [span中page 的开始地址，由于知道page的大小，就可以计算出后面page的地址了]
-	npages    uintptr // span 中 page的数量
+	next           *mspan    // span list中的后一个span, 如果没有则为空。
+	prev           *mspan    // span list中的前一个span, 如果没有则为空。
+	startAddr      uintptr   // address of first byte of span aka s.base()  [span中page 的开始地址，由于知道page的大小，就可以计算出后面page的地址了]
+	npages         uintptr   // span 中 page的数量
 	manualFreeList gclinkptr // span 中未使用object的链表地址
-    spanclass   spanClass  // 内存分配的时候，根据spanclass找出合适的mspan中的object分配，这样可以避免浪费
-    elemsize    uintptr    // computed from sizeclass or from npages
+	spanclass      spanClass // 内存分配的时候，根据spanclass找出合适的mspan中的object分配，这样可以避免浪费
+	elemsize       uintptr   // computed from sizeclass or from npages
 
 	// freeindex is the slot index between 0 and nelems at which to begin scanning
 	// for the next free object in this span.
@@ -831,7 +827,7 @@ func (h *mheap) allocSpanLocked(npage uintptr, stat *uint64) *mspan {
 	}
 
 HaveSpan:
-// Mark span in use.
+	// Mark span in use.
 	if s.state != _MSpanFree {
 		throw("MHeap_AllocLocked - MSpan not free")
 	}
